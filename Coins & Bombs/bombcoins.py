@@ -3,11 +3,11 @@ import random
 WIDTH = 720
 HEIGHT = 540
 TITLE = "Coins & bombs - Version infdev"
-bombs = ["Bomb","nuke","nuke","TNT box","TNT"]
+bombs = ["bomb","nuke","tntbox","tnt"]
 bombox = []
 aaahhh = []
 startspeed = 10
-totalevel = 10
+totalevel = 9
 level = 1
 die = False
 win = False
@@ -15,9 +15,20 @@ def draw():
     global bombox
     screen.clear()
     screen.blit("field",(0,0))
-    for i in bombox:
-        i.draw()
 
+    if die == False:
+        screen.fill("#FF0000")
+        screen.draw.text("You lose!",(0,0))
+    elif win:
+        screen.fill("#1AFF00")
+        screen.draw.text("You won!",(0,0))
+    else:
+        for i in bombox:
+            i.draw()
+def update():
+    global bombox
+    if len(bombox) == 0:
+        bombox = itemCreator(level)
 def createOption(items2):
     global bombs
     createItems = ["coin"]
@@ -26,15 +37,15 @@ def createOption(items2):
         createItems.append(gambling)
     return createItems
 def itemCreator(items2):
-    CreateItems = createOption(items2)
-    items = actorCreator(CreateItems)
+    createItems = createOption(items2)
+    items = actorCreator(createItems)
     itemdisplay(items)
     itemAnimator(items)
     return items
-def actorCreator(CreateItems):
+def actorCreator(createItems):
     items = []
-    for i in CreateItems:
-        item = Actor(i+"img")
+    for i in createItems:
+        item = Actor(i)
         items.append(item)
     return items
 def itemdisplay(di):
