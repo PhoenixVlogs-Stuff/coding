@@ -15,13 +15,12 @@ def draw():
     global bombox
     screen.clear()
     screen.blit("field",(0,0))
-
-    if die == False:
-        screen.fill("#FF0000")
-        screen.draw.text("You lose!",(0,0))
-    elif win:
+    if win:
         screen.fill("#1AFF00")
         screen.draw.text("You won!",(0,0))
+    elif die == True:
+        screen.fill("#FF0000")
+        screen.draw.text("You lose!",(0,0))
     else:
         for i in bombox:
             i.draw()
@@ -60,7 +59,7 @@ def itemAnimator(ati):
     for i in ati:
         duration = startspeed - level
         i.anchor = ("center", "bottom")
-        animation = animate(i,duration = duration, on_finished = gameover(),y = HEIGHT)
+        animation = animate(i,duration = duration, on_finished = gameover,y = HEIGHT)
         aaahhh.append(animation)
 def gameover():
     global die
@@ -80,7 +79,8 @@ def on_mouse_down(pos):
         if i.collidepoint(pos):
             if "coin" in i.image:
                 gamecomplete()
-            else:
+            elif i in bombox:
+                die = True
                 gameover()
 def stopanimation(stopanim):
     for i in stopanim:
